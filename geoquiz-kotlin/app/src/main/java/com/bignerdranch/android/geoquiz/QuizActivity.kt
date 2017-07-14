@@ -28,11 +28,10 @@ class QuizActivity : LifecycleActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (savedInstanceState != null) {
-            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0)
-        }
+        mCurrentIndex = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
+
 
         mBinding.trueButton.setOnClickListener { checkAnswer(true) }
 
@@ -49,6 +48,8 @@ class QuizActivity : LifecycleActivity() {
             val intent = CheatActivity.newIntent(this, answerIsTrue)
             startActivityForResult(intent, REQUEST_CODE)
         }
+
+        updateQuestion()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
